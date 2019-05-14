@@ -3,12 +3,12 @@ const browserSync = require('browser-sync');
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
+const cleanCss = require('gulp-clean-css');
 
 function copy() {
   return gulp.src([
     'app/*.html',
     'app/**/*.jpg',
-    'app/**/*.css',
   ])
     .pipe(gulp.dest('build'));
 }
@@ -36,6 +36,17 @@ function processJs() {
 }
 
 gulp.task('processJs', processJs);
+
+function processCss() {
+  return gulp.src('app/styles/*.css')
+    .pipe(cleanCss())
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest('build/styles'));
+}
+
+gulp.task('processCss', processCss);
 
 function watch() {
   gulp.watch('app/scripts/*.js', processJs);
