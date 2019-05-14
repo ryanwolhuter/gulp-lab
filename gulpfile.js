@@ -50,8 +50,9 @@ gulp.task('processCss', processCss);
 
 function watch() {
   gulp.watch('app/scripts/*.js', processJs);
+  gulp.watch('app/styles/*.css', processCss);
 }
 
 gulp.task('watch', watch);
 
-gulp.task('buildAndServe', gulp.series(copy, serve));
+gulp.task('buildAndServe', gulp.series(copy, processJs, processCss, gulp.parallel(watch, serve)));
